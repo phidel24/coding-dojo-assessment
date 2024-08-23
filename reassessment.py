@@ -4,32 +4,32 @@
 #Use given positions to swap, check if index of cells in first row is same with 2nd row & 3rd row and index should not be more
 #if same, means it's legal move, print message
 #if not, print message 
+#board is now 4X4, increase the index of row and column by 1, also increase check for index from 2 to 3
 
-def spark_game(positions, direction):
-    board = [
-        [1, 2, 3],
-        [4, 4, 5],
-        [5, 3, 4]
-    ]
-    # define legal move / same colored line
+board = [
+        [1, 2, 3, 4],
+        [4, 4, 5, 4],
+        [5, 3, 4, 6],
+        [2, 2, 3, 5]
+]
+def spark_game(board, positions, direction):
+    # Define legal move / same colored line
     def same_colored_line():
+        # Check rows
         for row in board:
-            if row[0] == row[1] == row[2]:
+            if row[0] == row[1] == row[2] == row[3]:
                 print("True")
                 return True
-            for col in range(3):
-                #print(">>",board[2][col])
-                if board[0][col] == board[1][col] == board[2][col]:
-                    print("True")
-                    return True
+        
+        # Check columns
+        for col in range(4):
+            if board[0][col] == board[1][col] == board[2][col] == board[3][col]:
+                print("True")
+                return True
+
         print("False")
         return False
-    
-    legal_move = same_colored_line()
-    
-    if legal_move == False:
-        print("Initial board does not have legal move")
-    
+        
     x, y = positions
     if direction == 'up':
         new_x, new_y = x - 1, y
@@ -41,19 +41,20 @@ def spark_game(positions, direction):
         new_x, new_y = x, y + 1
     else:
         print("Invalid direction")
+        return 
         
-    if not (0 <= new_x < 3 and 0 <= new_y < 3):
-        print("Choose position btw 0 & 2")
-        return False
+    if not (0 <= new_x < 4 and 0 <= new_y < 4):
+        print("Choose position between 0 and 3")
+        return 
 
     board[x][y], board[new_x][new_y] = board[new_x][new_y], board[x][y]
-    if legal_move == True:
+
+    if same_colored_line():
         print("Board has a legal move")
     else:
         print("Board does not have a legal move")
-    return legal_move
-
-spark_game((5,2), "up")
     
+    return board
 
+spark_game(board, (2, 2), "up")
 
