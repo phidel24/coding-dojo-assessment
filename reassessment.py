@@ -5,6 +5,8 @@
 #if same, means it's legal move, print message
 #if not, print message 
 #board is now 4X4, increase the index of row and column by 1, also increase check for index from 2 to 3
+#it should work for both 3x3 & 4x4 boards
+#add checks for l & t shapes
 
 board = [
         [1, 2, 3, 4],
@@ -14,14 +16,26 @@ board = [
 ]
 def spark_game(board, positions, direction):
     # Define legal move / same colored line
+    board_size = len(board)
+
     def same_colored_line():
         for row in board:
-            if row[0] == row[1] == row[2] == row[3]:
+            if len(set(row)) == 1:
                 return True
         
-        for col in range(4):
-            if board[0][col] == board[1][col] == board[2][col] == board[3][col]:
+        for col in range(board_size):
+            first_item = board[0][col]
+            all_col_items = True
+            for row in range(1, board_size):
+                if board[row][col] != first_item:
+                    all_col_items = False
+                    break
+            if all_col_items:
                 return True
+                
+        #check for L-shaped pattern
+            
+        #check for T-shaped pattern
 
         return False
         
@@ -38,8 +52,8 @@ def spark_game(board, positions, direction):
         print("Invalid direction")
         return 
         
-    if not (0 <= new_x < 4 and 0 <= new_y < 4):
-        print("Choose position between 0 and 3")
+    if not (0 <= new_x < board_size and 0 <= new_y < board_size):
+        print("Choose position between 0 and (boardsize - 1)")
         return 
 
     board[x][y], board[new_x][new_y] = board[new_x][new_y], board[x][y]
@@ -51,5 +65,5 @@ def spark_game(board, positions, direction):
     
     return board
 
-spark_game(board, (2, 2), "up")
+spark_game(board, (1, 2), "up")
 
