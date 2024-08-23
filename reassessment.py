@@ -15,19 +15,14 @@ board = [
 def spark_game(board, positions, direction):
     # Define legal move / same colored line
     def same_colored_line():
-        # Check rows
         for row in board:
             if row[0] == row[1] == row[2] == row[3]:
-                print("True")
                 return True
         
-        # Check columns
         for col in range(4):
             if board[0][col] == board[1][col] == board[2][col] == board[3][col]:
-                print("True")
                 return True
 
-        print("False")
         return False
         
     x, y = positions
